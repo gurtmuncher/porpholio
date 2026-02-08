@@ -89,7 +89,7 @@
 
             grid.innerHTML = repos.map(renderCard).join("");
         } catch (err) {
-            grid.innerHTML = `<p class="projects-error">couldn't load repos — <a href="https://github.com/gurtmuncher?tab=repositories" target="_blank" style="color:#5b9fff">view on github</a></p>`;
+            grid.innerHTML = `<p class="projects-error">couldn't load repos (if ur on a school chromebook github is prolly blocked thats why not loading) — <a href="https://github.com/gurtmuncher?tab=repositories" target="_blank" style="color:#5b9fff">view on github</a></p>`;
             console.error(err);
         }
     }
