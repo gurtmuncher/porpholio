@@ -651,56 +651,6 @@
     showTree(Math.floor(Math.random() * TREES.length));
     setTimeout(cycleTrees, cyclingMs);
 </script>
-<script>
-    (() => {
-        if (location.hostname !== "gurtmuncher.net") return;
-
-        const badge = document.getElementById("gurt-badge");
-        if (!badge) return;
-
-        const pop = document.createElement("div");
-        pop.className = "copy-pop";
-        pop.textContent = "Click to copy (Paste anywhere you like)";
-        pop.setAttribute("role", "status");
-        pop.setAttribute("aria-live", "polite");
-        badge.appendChild(pop);
-
-        const htmlToCopy = `
-<div class="web-badges">
-    <a href="https://gurtmuncher.net"
-       target="_blank"
-       rel="noopener noreferrer"
-       class="web-badge"
-       title="gurtmuncher sigma baller 67 67">
-    </a>
-</div>`.trim();
-
-        badge.addEventListener("click", async (e) => {
-            e.preventDefault();
-
-            try {
-                if (!navigator.clipboard) {
-                    throw new Error("Clipboard API not available");
-                }
-
-                await navigator.clipboard.writeText(htmlToCopy);
-
-                pop.classList.add("show");
-                setTimeout(() => pop.classList.remove("show"), 900);
-
-            } catch (err) {
-                console.error("Failed to copy:", err);
-                pop.textContent = "Copy failed try again";
-                pop.classList.add("show");
-                setTimeout(() => {
-                    pop.classList.remove("show");
-                    pop.textContent = "Click to copy (Paste anywhere you like)";
-                }, 1500);
-            }
-        });
-    })();
-</script>
-
 <!-- 100% privacy-first analytics -->
 <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
 <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
