@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "@hono/node-server": "^1.19.7"
+    "@hono/node-server": "^1.19.7",
+    "hono": "^4.11.9"
   },
   "name": "portfolio",
   "version": "1.0.0",
