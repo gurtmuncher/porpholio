@@ -1,27 +1,38 @@
 export async function onRequest(context) {
-    const { request } = context;
-    const url = new URL(request.url);
+    const request = context.request
+    const url = new URL(request.url)
 
-    const appid = url.searchParams.get("appid");
+    let steamId =
+        url.searchParams.get("id") ||
+        url.searchParams.get("steamId") ||
+        url.searchParams.get("steam_id")
 
-    if (!appid) {
-        return new Response("Missing appid", { status: 400 });
+    if (!steamId) {
+        const parts = url.pathname.split("/")
+        steamId = parts[parts.length - 1]
     }
 
-    const steamUrl = `https://store.steampowered.com/api/appdetails?appids=${appid}`;
+    if (!steamId || !/^\d+$/.test(steamId)) {
+        return new Response("missing or invalid steam id", { status: 400 })
+    }
 
-    const steamRes = await fetch(steamUrl, {
+    const steamUrl =
+        "https://steamcommunity.com/profiles/" +
+        steamId +
+        "/?xml=1"
+
+    const res = await fetch(steamUrl, {
         headers: {
-            "User-Agent": "Mozilla/5.0"
+            "User-Agent": "cf-pages-steam-proxy"
         }
-    });
+    })
 
-    const data = await steamRes.text();
+    const text = await res.text()
 
-    return new Response(data, {
+    return new Response(text, {
         headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*"
+            "Content-Type": "text/xml",
+            "Cache-Control": "public, max-age=60"
         }
-    });
+    })
 }
