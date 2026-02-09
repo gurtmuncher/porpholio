@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>activity - gurtmuncher</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .activity-wrap {
+            padding: 60px 40px 40px;
+            position: relative;
+            z-index: 2;
+            max-width: 700px;
+        }
+
+        .activity-wrap h2 {
+            color: #fff;
+            font-size: 1.6rem;
+            margin-bottom: 24px;
+            font-weight: 400;
+        }
+
+        .activity-section {
+            margin-bottom: 32px;
+        }
+
+        .activity-section .section-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .activity-section .section-icon {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+            color: #666;
+        }
+
+        .activity-section .section-title {
+            color: #ccc;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+        }
+
+        .activity-section .section-link {
+            margin-left: auto;
+            color: #5b9fff;
+            text-decoration: none;
+            font-size: 0.78rem;
+        }
+
+        .activity-section .section-link:hover {
+            text-decoration: underline;
+        }
+
+        .steam-profile {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(255,255,255,0.04);
+            border: none;
+            border-radius: 6px;
+            padding: 14px 18px;
+            margin-bottom: 12px;
+        }
+
+        .steam-profile img {
+            width: 48px;
+            height: 48px;
+            border-radius: 4px;
+        }
+
+        .steam-profile .sp-info { flex: 1; }
+
+        .steam-profile .sp-name {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .steam-profile .sp-status {
+            color: #888;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+
+        .steam-profile .sp-status.online { color: #57cbde; }
+        .steam-profile .sp-status.in-game { color: #90ba3c; }
+
+        .steam-profile .sp-meta {
+            color: #666;
+            font-size: 0.75rem;
+            text-align: right;
+        }
+
+        .game-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(255,255,255,0.04);
+            border: none;
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .game-card:hover {
+            background: rgba(255,255,255,0.06);
+        }
+
+        .game-card img {
+            width: 120px;
+            height: 45px;
+            border-radius: 3px;
+            object-fit: cover;
+        }
+
+        .game-card .gc-info { flex: 1; }
+
+        .game-card .gc-name {
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .game-card .gc-hours {
+            color: #888;
+            font-size: 0.75rem;
+            margin-top: 3px;
+        }
+
+        .game-card.now-playing {
+            background: rgba(144, 186, 60, 0.06);
+        }
+
+        .game-card .gc-playing-badge {
+            color: #90ba3c;
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .discord-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(255,255,255,0.04);
+            border: none;
+            border-radius: 6px;
+            padding: 16px 18px;
+        }
+
+        .discord-card .dc-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .discord-card .dc-avatar img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+        }
+
+        .discord-card .dc-status-dot {
+            position: absolute;
+            bottom: -1px;
+            right: -1px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: none;
+        }
+
+        .dc-dot-online { background: #3ba55d; }
+        .dc-dot-idle { background: #faa61a; }
+        .dc-dot-dnd { background: #ed4245; }
+        .dc-dot-offline { background: #747f8d; }
+
+        .discord-card .dc-info { flex: 1; }
+
+        .discord-card .dc-name {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .discord-card .dc-status-text {
+            color: #888;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+
+        .discord-card .dc-activity {
+            color: #aaa;
+            font-size: 0.78rem;
+            margin-top: 4px;
+        }
+
+        .spotify-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(29, 185, 84, 0.08);
+            border: none;
+            border-radius: 6px;
+            padding: 14px 18px;
+        }
+
+        .spotify-card .sp-album {
+            width: 48px;
+            height: 48px;
+            border-radius: 4px;
+        }
+
+        .spotify-card .sp-track-info { flex: 1; }
+
+        .spotify-card .sp-track {
+            color: #1db954;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .spotify-card .sp-artist {
+            color: #888;
+            font-size: 0.78rem;
+            margin-top: 2px;
+        }
+
+        .spotify-card .sp-album-name {
+            color: #666;
+            font-size: 0.72rem;
+            margin-top: 2px;
+        }
+
+        .placeholder-msg {
+            color: #666;
+            font-size: 0.85rem;
+            padding: 12px 0;
+        }
+
+        .placeholder-msg a {
+            color: #5b9fff;
+            text-decoration: none;
+        }
+
+        .placeholder-msg a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .activity-wrap {
+                padding: 50px 20px 20px;
+            }
+
+            .game-card img {
+                width: 80px;
+                height: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="nav-row">
+    <button onclick="window.location.href='/'">home</button>
+    <button onclick="window.location.href='/projects.html'">projects</button>
+    <button class="active" onclick="window.location.href='/activity.html'">activity</button>
+    <button onclick="window.location.href='/contact.html'">contact</button>
+</div>
+
+<pre id="ascii-bg"></pre>
+
+<section class="activity-wrap">
+    <h2>activity</h2>
+
+    <div class="activity-section">
+        <div class="section-head">
+            <span class="section-icon">#</span>
+            <span class="section-title">discord</span>
+        </div>
+        <div id="discord-container">
+            <p class="placeholder-msg">loading discord status...</p>
+        </div>
+    </div>
+
+    <div class="activity-section">
+        <div class="section-head">
+            <span class="section-icon">&gt;</span>
+            <span class="section-title">steam</span>
+            <a class="section-link" href="https://steamcommunity.com/id/gurtmuncher/" target="_blank">view profile</a>
+        </div>
+        <div id="steam-container">
+            <p class="placeholder-msg">loading steam status...</p>
+        </div>
+    </div>
+
+    <div class="activity-section">
+        <div class="section-head">
+            <span class="section-icon">~</span>
+            <span class="section-title">spotify</span>
+            <a class="section-link" href="https://open.spotify.com/user/Qeigg" target="_blank">open profile</a>
+        </div>
+        <div id="spotify-container">
+            <p class="placeholder-msg">not currently listening to anything</p>
+        </div>
+    </div>
+
+</section>
+
+<script>
+    var DISCORD_USER_ID = "1321090812947468288";
+    var STEAM_ID = "76561199089702750";
+
+    function loadSteam() {
+        var container = document.getElementById("steam-container");
+
+        fetch("/steam-proxy?id=" + STEAM_ID)
+            .then(function(res) { return res.text(); })
+            .then(function(text) {
+                var parser = new DOMParser();
+                var xml = parser.parseFromString(text, "text/xml");
+
+                var name = xml.querySelector("steamID") ? xml.querySelector("steamID").textContent : "gurt";
+                var avatar = xml.querySelector("avatarMedium") ? xml.querySelector("avatarMedium").textContent : "";
+                var onlineState = xml.querySelector("onlineState") ? xml.querySelector("onlineState").textContent : "offline";
+                var inGameInfo = xml.querySelector("inGameInfo");
+                var currentGame = "";
+                var gameLink = "";
+
+                if (inGameInfo) {
+                    var gn = inGameInfo.querySelector("gameName");
+                    var gl = inGameInfo.querySelector("gameLink");
+                    if (gn) currentGame = gn.textContent;
+                    if (gl) gameLink = gl.textContent;
+                }
+
+                var statusClass = "";
+                var statusText = "offline";
+
+                if (currentGame) {
+                    statusClass = "in-game";
+                    statusText = "playing " + currentGame;
+                } else if (onlineState === "online") {
+                    statusClass = "online";
+                    statusText = "online";
+                } else {
+                    statusText = onlineState;
+                }
+
+                var profileHtml =
+                    '<div class="steam-profile">' +
+                    '<img src="' + avatar + '" alt="steam avatar">' +
+                    '<div class="sp-info">' +
+                    '<div class="sp-name">' + name + '</div>' +
+                    '<div class="sp-status ' + statusClass + '">' + statusText + '</div>' +
+                    '</div>' +
+                    '<div class="sp-meta">lvl 5 · 20 games</div>' +
+                    '</div>';
+
+                var gamesHtml = "";
+
+                if (currentGame) {
+                    gamesHtml +=
+                        '<div class="game-card now-playing">' +
+                        '<div class="gc-info">' +
+                        '<div class="gc-playing-badge">now playing</div>' +
+                        '<div class="gc-name">' + currentGame + '</div>' +
+                        '</div>' +
+                        '</div>';
+                }
+
+                gamesHtml +=
+                    '<div class="game-card">' +
+                    '<img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/105600/capsule_184x69.jpg?t=1769844435" alt="Terraria">' +
+                    '<div class="gc-info">' +
+                    '<div class="gc-name">Terraria</div>' +
+                    '<div class="gc-hours">143 hrs on record · 58/137 achievements</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="game-card">' +
+                    '<img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1281930/capsule_184x69.jpg?t=1718143594" alt="tModLoader">' +
+                    '<div class="gc-info">' +
+                    '<div class="gc-name">tModLoader</div>' +
+                    '<div class="gc-hours">112 hrs on record</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="game-card">' +
+                    '<img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1118200/capsule_184x69.jpg?t=1763123186" alt="People Playground">' +
+                    '<div class="gc-info">' +
+                    '<div class="gc-name">People Playground</div>' +
+                    '<div class="gc-hours">102 hrs on record</div>' +
+                    '</div>' +
+                    '</div>';
+
+                container.innerHTML = profileHtml + gamesHtml;
+            })
+            .catch(function() {
+                container.innerHTML =
+                    '<div class="steam-profile">' +
+                    '<div class="sp-info">' +
+                    '<div class="sp-name">gurt</div>' +
+                    '<div class="sp-status">couldn\'t load status</div>' +
+                    '</div>' +
+                    '</div>';
+            });
+    }
+
+    function loadLanyard() {
+        var dc = document.getElementById("discord-container");
+        var sp = document.getElementById("spotify-container");
+
+        if (DISCORD_USER_ID === "YOUR_DISCORD_ID_HERE") {
+            dc.innerHTML = '<p class="placeholder-msg">discord not connected yet</p>';
+            return;
+        }
+
+        fetch("https://api.lanyard.rest/v1/users/" + DISCORD_USER_ID)
+            .then(function(res) {
+                if (!res.ok) throw new Error(res.status);
+                return res.json();
+            })
+            .then(function(json) {
+                if (!json.success) throw new Error("not in lanyard");
+
+                var d = json.data;
+                var user = d.discord_user;
+                var status = d.discord_status;
+                var activities = d.activities || [];
+
+                var avatarUrl = user.avatar
+                    ? "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=128"
+                    : "https://cdn.discordapp.com/embed/avatars/" + (parseInt(user.discriminator || "0") % 5) + ".png";
+
+                var statusLabels = { online: "online", idle: "idle", dnd: "do not disturb", offline: "offline" };
+
+                var activityHtml = "";
+                var customStatus = activities.find(function(a) { return a.type === 4; });
+                var gameActivity = activities.find(function(a) { return a.type === 0; });
+
+                if (customStatus && customStatus.state) {
+                    activityHtml = '<div class="dc-activity">' + (customStatus.emoji ? customStatus.emoji.name + " " : "") + customStatus.state + '</div>';
+                }
+                if (gameActivity) {
+                    activityHtml += '<div class="dc-activity">playing <strong style="color:#fff">' + gameActivity.name + '</strong></div>';
+                }
+
+                dc.innerHTML =
+                    '<div class="discord-card">' +
+                    '<div class="dc-avatar">' +
+                    '<img src="' + avatarUrl + '" alt="avatar">' +
+                    '<div class="dc-status-dot dc-dot-' + status + '"></div>' +
+                    '</div>' +
+                    '<div class="dc-info">' +
+                    '<div class="dc-name">' + (user.global_name || user.username) + '</div>' +
+                    '<div class="dc-status-text">' + (statusLabels[status] || status) + '</div>' +
+                    activityHtml +
+                    '</div>' +
+                    '</div>';
+
+                if (d.listening_to_spotify && d.spotify) {
+                    var s = d.spotify;
+                    sp.innerHTML =
+                        '<div class="spotify-card">' +
+                        '<img class="sp-album" src="' + s.album_art_url + '" alt="album">' +
+                        '<div class="sp-track-info">' +
+                        '<div class="sp-track">' + s.song + '</div>' +
+                        '<div class="sp-artist">by ' + s.artist + '</div>' +
+                        '<div class="sp-album-name">on ' + s.album + '</div>' +
+                        '</div>' +
+                        '</div>';
+                }
+            })
+            .catch(function() {
+                dc.innerHTML = '<p class="placeholder-msg">couldn\'t reach discord — <a href="https://discord.gg/lanyard" target="_blank">join lanyard</a> to enable</p>';
+            });
+    }
+
+    loadSteam();
+    loadLanyard();
+    setInterval(loadSteam, 60000);
+    setInterval(loadLanyard, 30000);
+</script>
+
+<script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+</body>
+</html>
