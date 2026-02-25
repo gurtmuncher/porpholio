@@ -23,7 +23,7 @@ export async function onRequest(context) {
     let res = await fetch(recentUrl, {
         headers: { "User-Agent": "cf-pages-steam-proxy" }
     });
-
+//l
     if (!res.ok) {
         const allUrl =
             "https://steamcommunity.com/profiles/" +
