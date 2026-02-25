@@ -239,9 +239,10 @@
 </section>
 
 <script>
-    (function() {
+    (function () {
         var DISCORD_ID = "1321090812947468288";
         var STEAM_ID = "76561199089702750";
+
         var dc = document.getElementById("discord-container");
         var sc = document.getElementById("steam-container");
         var sp = document.getElementById("spotify-container");
@@ -252,25 +253,40 @@
             return d.innerHTML;
         }
 
+        function capsule(appid) {
+            return "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/" + appid + "/capsule_184x69.jpg";
+        }
+
         function loadSteam() {
             var xhr = new XMLHttpRequest();
             xhr.timeout = 8000;
-            xhr.onreadystatechange = function() {
+
+            xhr.onreadystatechange = function () {
                 if (xhr.readyState !== 4) return;
+
                 if (xhr.status !== 200) {
-                    sc.innerHTML = '<div class="card"><div class="info"><div class="name">gurt</div><div class="status">couldn\'t load status</div></div></div>';
+                    sc.innerHTML =
+                        '<div class="card"><div class="info"><div class="name">gurt</div><div class="status">could not load</div></div></div>';
                     return;
                 }
+
                 var parser = new DOMParser();
                 var xml = parser.parseFromString(xhr.responseText, "text/xml");
+
                 var name = (xml.querySelector("steamID") || {}).textContent || "gurt";
                 var avatar = (xml.querySelector("avatarMedium") || {}).textContent || "";
                 var state = (xml.querySelector("onlineState") || {}).textContent || "offline";
+
                 var inGame = xml.querySelector("inGameInfo");
-                var game = inGame ? (inGame.querySelector("gameName") || {}).textContent || "" : "";
+                var game = inGame ? (inGame.querySelector("gameName") || {}).textContent : "";
+                var link = inGame ? (inGame.querySelector("gameLink") || {}).textContent : "";
+
+                var match = (link || "").match(/\/app\/(\d+)/);
+                var appid = match ? match[1] : "";
 
                 var statusClass = "";
                 var statusText = state;
+
                 if (game) {
                     statusClass = "in-game";
                     statusText = "playing " + game;
@@ -278,71 +294,91 @@
                     statusClass = "online";
                 }
 
-                var html = '<div class="card"><div class="avatar avatar-square"><img src="' + esc(avatar) + '" alt="" loading="lazy"></div><div class="info"><div class="name">' + esc(name) + '</div><div class="status ' + statusClass + '">' + esc(statusText) + '</div></div><div class="meta">lvl 5</div></div>';
+                var html =
+                    '<div class="card">' +
+                    '<div class="avatar avatar-square"><img src="' + esc(avatar) + '"></div>' +
+                    '<div class="info">' +
+                    '<div class="name">' + esc(name) + '</div>' +
+                    '<div class="status ' + statusClass + '">' + esc(statusText) + '</div>' +
+                    '</div>' +
+                    '</div>';
 
                 if (game) {
-                    html += '<div class="card now-playing"><div class="info"><div class="playing-badge">now playing</div><div class="game-name">' + esc(game) + '</div></div></div>';
+                    html +=
+                        '<div class="card now-playing game-card">' +
+                        (appid ? '<img src="' + capsule(appid) + '">' : '') +
+                        '<div class="info">' +
+                        '<div class="playing-badge">now playing</div>' +
+                        '<div class="game-name">' + esc(game) + '</div>' +
+                        '</div>' +
+                        '</div>';
                 }
 
-                html += '<div class="card game-card"><img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/105600/capsule_184x69.jpg" alt="" loading="lazy"><div class="info"><div class="game-name">Terraria</div><div class="game-hours">143 hrs on record</div></div></div>';
-                html += '<div class="card game-card"><img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1281930/capsule_184x69.jpg" alt="" loading="lazy"><div class="info"><div class="game-name">tModLoader</div><div class="game-hours">112 hrs on record</div></div></div>';
-                html += '<div class="card game-card"><img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1118200/capsule_184x69.jpg" alt="" loading="lazy"><div class="info"><div class="game-name">People Playground</div><div class="game-hours">102 hrs on record</div></div></div>';
+                html += '<div id="steam-recent"></div>';
 
                 sc.innerHTML = html;
+
+                loadRecent();
             };
+
             xhr.open("GET", "/steam-proxy?id=" + STEAM_ID, true);
             xhr.send();
         }
 
-        function loadLanyard() {
+        function loadRecent() {
+            var slot = document.getElementById("steam-recent");
+            if (!slot) return;
+
             var xhr = new XMLHttpRequest();
             xhr.timeout = 8000;
-            xhr.onreadystatechange = function() {
+
+            xhr.onreadystatechange = function () {
                 if (xhr.readyState !== 4) return;
+
                 if (xhr.status !== 200) {
-                    dc.innerHTML = '<p class="placeholder">couldn\'t reach discord - <a href="https://discord.gg/lanyard" target="_blank">join lanyard</a> to enable</p>';
+                    slot.innerHTML = '<p class="placeholder">could not load recent games</p>';
                     return;
                 }
-                var json;
-                try { json = JSON.parse(xhr.responseText); } catch(e) { return; }
-                if (!json.success) return;
 
-                var d = json.data;
-                var u = d.discord_user;
-                var status = d.discord_status;
-                var acts = d.activities || [];
+                var parser = new DOMParser();
+                var xml = parser.parseFromString(xhr.responseText, "text/xml");
 
-                var avatarUrl = u.avatar
-                    ? "https://cdn.discordapp.com/avatars/" + u.id + "/" + u.avatar + ".png?size=128"
-                    : "https://cdn.discordapp.com/embed/avatars/" + (parseInt(u.discriminator || "0") % 5) + ".png";
+                var games = xml.querySelectorAll("games > game");
 
-                var labels = { online: "online", idle: "idle", dnd: "do not disturb", offline: "offline" };
-                var actHtml = "";
-
-                for (var i = 0; i < acts.length; i++) {
-                    if (acts[i].type === 4 && acts[i].state) {
-                        actHtml += '<div class="activity-text">' + (acts[i].emoji ? esc(acts[i].emoji.name) + " " : "") + esc(acts[i].state) + '</div>';
-                    }
-                    if (acts[i].type === 0) {
-                        actHtml += '<div class="activity-text">playing <strong style="color:#fff">' + esc(acts[i].name) + '</strong></div>';
-                    }
+                if (!games.length) {
+                    slot.innerHTML = '<p class="placeholder">no recent games</p>';
+                    return;
                 }
 
-                dc.innerHTML = '<div class="card"><div class="avatar"><img src="' + esc(avatarUrl) + '" alt="" loading="lazy"><div class="status-dot dot-' + status + '"></div></div><div class="info"><div class="name">' + esc(u.global_name || u.username) + '</div><div class="status">' + (labels[status] || status) + '</div>' + actHtml + '</div></div>';
+                var out = "";
+                var max = Math.min(3, games.length);
 
-                if (d.listening_to_spotify && d.spotify) {
-                    var s = d.spotify;
-                    sp.innerHTML = '<div class="card spotify-card"><div class="avatar avatar-square"><img src="' + esc(s.album_art_url) + '" alt="" loading="lazy"></div><div class="info"><div class="name">' + esc(s.song) + '</div><div class="status">by ' + esc(s.artist) + '</div><div class="activity-text">on ' + esc(s.album) + '</div></div></div>';
+                for (var i = 0; i < max; i++) {
+                    var g = games[i];
+
+                    var appid = (g.querySelector("appID") || {}).textContent || "";
+                    var name = (g.querySelector("name") || {}).textContent || "";
+                    var hours = (g.querySelector("hoursOnRecord") || {}).textContent || "";
+
+                    out +=
+                        '<div class="card game-card">' +
+                        (appid ? '<img src="' + capsule(appid) + '">' : '') +
+                        '<div class="info">' +
+                        '<div class="game-name">' + esc(name) + '</div>' +
+                        (hours ? '<div class="game-hours">' + esc(hours) + ' hrs</div>' : '') +
+                        '</div>' +
+                        '</div>';
                 }
+
+                slot.innerHTML = out;
             };
-            xhr.open("GET", "https://api.lanyard.rest/v1/users/" + DISCORD_ID, true);
+
+            xhr.open("GET", "/steam-games-proxy?id=" + STEAM_ID, true);
             xhr.send();
         }
 
         loadSteam();
-        loadLanyard();
         setInterval(loadSteam, 60000);
-        setInterval(loadLanyard, 30000);
     })();
 </script>
 <script>
