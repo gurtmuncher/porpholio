@@ -336,3 +336,41 @@ body {
         grid-template-columns: 1fr;
     }
 }
+.center.container {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 40px;
+    backdrop-filter: blur(4px);
+}
+
+.center h1 {
+    font-size: 8rem;
+    font-weight: 400;
+    letter-spacing: -4px;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.center h2 {
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: 30px;
+}
+
+.goback {
+    padding: 10px 24px;
+    border: 1px solid #fff;
+    background: transparent;
+    color: #fff;
+    font-family: monospace;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.goback:hover {
+    background: grey;
+    color: #333;
+}
