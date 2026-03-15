@@ -1,12 +1,15 @@
 {
   "name": "gurtmuncher-portfolio",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "start": "bun index.js"
+    "start": "bun index.ts"
   },
   "dependencies": {
     "e": "^0.2.33",
     "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.10"
   }
 }
