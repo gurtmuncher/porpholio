@@ -1,17 +1,12 @@
 {
-  "dependencies": {
-    "@hono/node-server": "^1.19.7",
-    "hono": "^4.11.9"
-  },
-  "name": "portfolio",
+  "name": "gurtmuncher-portfolio",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "bun index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+  "dependencies": {
+    "e": "^0.2.33",
+    "express": "^4.18.2"
+  }
 }

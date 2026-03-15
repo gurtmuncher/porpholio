@@ -1,29 +1,19 @@
 const path = require('path');
-const fs = require('fs');
-const { Hono } = require('hono');
-const { serveStatic } = require('@hono/node-server/serve-static');
-const { serve } = require('@hono/node-server');
 
-const app = new Hono();
+Bun.serve({
+    port: 3000,
+    async fetch(req) {
+        const url = new URL(req.url);
+        let filepath = url.pathname === '/' ? '/index.html' : url.pathname;
+        const fullpath = path.join(__dirname, 'public', filepath);
+        const file = Bun.file(fullpath);
 
-const publicDir = path.join(__dirname, 'public');
+        if (await file.exists()) {
+            return new Response(file);
+        }
 
-app.use('/*', serveStatic({ root: publicDir }));
-
-app.get('/', (c) => {
-    return c.html(
-        fs.readFileSync(path.join(publicDir, 'index.html'), 'utf-8')
-    );
+        return new Response('not found', { status: 404 });
+    }
 });
 
-app.notFound((c) => {
-    return c.html(
-        fs.readFileSync(path.join(publicDir, '404.html'), 'utf-8'),
-        404
-    );
-});
-
-const port = 3000;
-serve({ fetch: app.fetch, port });
-
-console.log(`Running at http://localhost:${port}`);
+console.log('http://localhost:3000');
