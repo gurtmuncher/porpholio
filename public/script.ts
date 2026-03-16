@@ -49,7 +49,11 @@ const songs: Song[] = [
     { src: 'audio/unravel.mp3', title: 'Unravel - TK' },
     { src: 'audio/like_flames.mp3', title: 'Like Flames - MindaRyn' },
     { src: 'audio/song.mp3', title: '青のすみか - キタニタツヤ' },
-    { src: 'audio/numb.mp3', title: 'Comfortably Numb Solo Cover - Thomas75s' }
+    { src: 'audio/numb.mp3', title: 'Comfortably Numb Solo Cover - Thomas75s' },
+    { src: 'audio/luhcalm.mp3', title: 'ふたりの気持ち' },
+    { src: 'audio/aot-la-la-la.mp3', title: 'Attack on titan la la la' },
+    { src: 'audio/spend-some-goon-away.mp3', title: 'Chamber Of Reflection - Mac DeMarco' }
+
 ];
 
 const currentSong = songs[Math.floor(Math.random() * songs.length)];
