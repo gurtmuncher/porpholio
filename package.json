@@ -1,16 +1,18 @@
 {
   "name": "gurtmuncher-portfolio",
   "version": "1.0.0",
-  "main": "index.ts",
+  "type": "module",
+  "main": "src/index.js",
   "scripts": {
-    "start": "bun index.ts"
+    "start": "node src/index.js",
+    "build": "node build.js"
   },
   "dependencies": {
-    "e": "^0.2.33",
-    "express": "^4.22.2"
-  },
-  "devDependencies": {
-    "@types/bun": "^1.3.10"
+    "@hono/node-server": "^2.0.4",
+    "hono": "^4.12.23",
+    "htm": "^3.1.1",
+    "preact": "^10.29.2",
+    "preact-render-to-string": "^6.7.0"
   },
   "description": "",
   "repository": {
@@ -20,7 +22,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/gurtmuncher/portfolio/issues"
   },
