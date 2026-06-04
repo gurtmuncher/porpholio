@@ -100,7 +100,7 @@ export const Contact = () => html`
       <ul class="links">
         <li><a href=${site.links.github} target="_blank" rel="noopener">github/${site.user}</a></li>
         <li><a href=${site.links.discord} target="_blank" rel="noopener">discord/${site.user}</a></li>
-        <li><a href=${"mailto:" + site.links.email}>${site.links.email}</a></li>
+        <li><a href=${"mailto:" + site.links.email}>gmail</a></li>
       </ul>
     </section>
   <//>
