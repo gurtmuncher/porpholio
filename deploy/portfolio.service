@@ -1,0 +1,16 @@
+[Unit]
+Description=gurtmuncher portfolio (hono ssr)
+After=network.target
+
+[Service]
+Type=simple
+User=portfolio
+WorkingDirectory=/home/portfolio/portfolio
+Environment=NODE_ENV=production
+Environment=PORT=3000
+ExecStart=/usr/bin/node src/index.js
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
