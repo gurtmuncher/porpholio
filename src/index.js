@@ -18,7 +18,6 @@ function countVisit(c) {
       httpOnly: true,
       sameSite: "Lax",
       path: "/",
-      maxAge: 60 * 20,
     });
   }
   return total();
@@ -43,6 +42,7 @@ app.get("/contact", (c) => {
 app.notFound((c) => c.html(doc(NotFound), 404));
 
 const port = Number(process.env.PORT) || 3000;
-serve({ fetch: app.fetch, port }, (info) => {
-  console.log(`started @ http://localhost:${info.port}`);
+const hostname = process.env.HOST || "127.0.0.1";
+serve({ fetch: app.fetch, port, hostname }, (info) => {
+  console.log(`started @ http://${hostname}:${info.port}`);
 });

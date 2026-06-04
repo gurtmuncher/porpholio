@@ -68,9 +68,7 @@ export const Home = ({ visits }) => html`
       <h2>skills</h2>
       <p>${site.skills.join(", ")}</p>
     </section>
-    ${typeof visits === "number"
-      ? html`<p class="visits">${visits.toLocaleString("en-US")} total visits</p>`
-      : null}
+    <p class="visits">${visits.toLocaleString("en-US")} total visits</p>
   <//>
 `;
 
