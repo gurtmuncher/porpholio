@@ -1,7 +1,6 @@
 export const site = {
   user: "gurtmuncher",
   role: "programmer",
-  tag: "i will program stuff",
   about: [
     "im 15 and im from lousiana or however u spell ts and my favorite game is cyberpunk 2077, also my favorite colour is orange, and i also like romance anime",
   ],

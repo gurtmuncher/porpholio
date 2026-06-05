@@ -39,7 +39,6 @@ const Layout = ({ active, title, children }) => html`
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <title>gurtmuncher</title>
-      <meta name="description" content=${site.tag} />
       <link rel="stylesheet" href="/css/style.css" />
     </head>
     <body>
@@ -61,7 +60,6 @@ export const Home = ({ visits }) => html`
   <${Layout} active="home" title="gurtmuncher">
     <section class="hero">
       <h1>${site.user}</h1>
-      <p class="tag">${site.tag}</p>
     </section>
     <section class="block">
       ${site.about.map((p) => html`<p>${p}</p>`)}

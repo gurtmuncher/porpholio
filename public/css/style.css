@@ -104,17 +104,11 @@ a:hover {
 .hero { padding: 36px 4px 12px; }
 
 .hero h1 {
-  font-size: 42px;
+  font-size: 30px;
   font-weight: 600;
   line-height: 1.05;
 }
 
-.tag {
-  margin-top: 14px;
-  font-size: 18px;
-  max-width: 440px;
-  color: #c3c2b7;
-}
 
 .visits {
   margin: 6px 4px 0;
