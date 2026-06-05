@@ -27,6 +27,7 @@ const Nav = ({ active }) => html`
     <ul class="tabs">
       <li><a href="/" class=${active === "home" ? "on" : ""}>home</a></li>
       <li><a href="/projects" class=${active === "projects" ? "on" : ""}>projects</a></li>
+      <li><a href="/activity" class=${active === "activity" ? "on" : ""}>activity</a></li>
       <li><a href="/contact" class=${active === "contact" ? "on" : ""}>contact</a></li>
     </ul>
   </nav>
@@ -51,6 +52,7 @@ const Layout = ({ active, title, children }) => html`
       <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.dots.min.js"></script>
       <script dangerouslySetInnerHTML=${{ __html: vantaInit }}></script>
       <script src="/js/app.js"></script>
+      <script type="module" src="/js/activity.js"></script>
     </body>
   </html>
 `;
@@ -100,6 +102,15 @@ export const Contact = () => html`
         <li><a href=${site.links.discord} target="_blank" rel="noopener">discord/${site.user}</a></li>
         <li><a href=${"mailto:" + site.links.email}>gmail</a></li>
       </ul>
+    </section>
+  <//>
+`;
+
+export const Activity = ({ cardHtml }) => html`
+  <${Layout} active="activity" title="activity">
+    <section class="block">
+      <h2>activity</h2>
+      <div id="dc" dangerouslySetInnerHTML=${{ __html: cardHtml }}></div>
     </section>
   <//>
 `;
