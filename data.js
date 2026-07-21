@@ -9,7 +9,7 @@ export const site = {
     { name: "ravenfield", note: "web port of ravenfield", url: "https://github.com/degloved-net/Ravenfield" },
     { name: "happy room", note: "web port of happy room", url: "https://github.com/degloved-net/happy-room" },
     { name: "genital jousting", note: "web port of genital jousting", url: "https://github.com/degloved-net/genital-jousting" },
-    { name:"trombone champ", note: "web port of trombone champ", url: "https://github.com/degloved-net/trombone-champ" },
+    { name: "trombone champ", note: "web port of trombone champ", url: "https://github.com/degloved-net/trombone-champ" },
     { name: "portfolio", note: "the sight ur looking at", url: "https://github.com/gurtmuncher/portfolio" },
     { name: "evil portal htmls", note: "htmls for the evil portal on the flipper zero", url: "https://github.com/gurtmuncher/Evil-Portal-htmls" },
   ],
